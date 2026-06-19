@@ -696,8 +696,11 @@ def lenet_backward(dlogits, cache):
         }
     }
 
-# Step 51 - lenet_predict (not yet solved)
-# TODO: implement
+# Step 51 - lenet_predict
+def lenet_predict(x, params):
+    N=x.shape[0]
+    logits,dic=lenet_forward(x,params)
+    return np.argmax(logits,axis=1).reshape(-1).astype(np.int64)
 
 # Step 52 - build_synthetic_image_dataset
 import numpy as np
