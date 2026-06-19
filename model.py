@@ -671,7 +671,7 @@ def backward_classifier_block(dlogits, cache):
     }
 
 # Step 50 - lenet_backward
-def lenet_backward(dlogits, caches):
+def lenet_backward(dlogits, cache):
     dic=backward_classifier_block(dlogits,cache["classifier"])
     dx2,dw2,db2=backward_conv_block(
         dic["dx"],cache["block2"]
@@ -681,10 +681,10 @@ def lenet_backward(dlogits, caches):
     )
     return {
         "conv1":{
-            "dW":dW1, "db":db1
+            "dW":dw1,"db":db1
         },
         "conv2":{
-            "dW":dW2,   "db":db2
+            "dW":dw2,"db":db2
         },
         "fc1": {
             "dW": dic["fc1"]["dW"],
