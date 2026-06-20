@@ -757,16 +757,9 @@ def train_step(params, opt_state, xb, yb,
                lr, beta_one, beta_two,
                eps, step):
 
-    # Forward pass
     logits, cache = lenet_forward(xb, params)
-
-    # Loss
     loss = softmax_cross_entropy_forward(logits, yb)
-
-    # Gradient of loss wrt logits
     dlogits = softmax_cross_entropy_backward(logits, yb)
-
-    # Backward pass
     grads = lenet_backward(dlogits, cache)
 
     new_params = {}
@@ -778,29 +771,18 @@ def train_step(params, opt_state, xb, yb,
 
         for pname in params[layer]:
             param = params[layer][pname]
-            grad = grads[layer][pname]
+            grad = grads[layer]["d" + pname]   # "W"->"dW", "b"->"db"
 
             m = opt_state[layer][pname]["m"]
             v = opt_state[layer][pname]["v"]
 
             new_param, new_m, new_v = adam_step(
-                param,
-                grad,
-                m,
-                v,
-                step,
-                lr,
-                beta_one,
-                beta_two,
-                eps
+                param, grad, m, v, step,
+                lr, beta_one, beta_two, eps
             )
 
             new_params[layer][pname] = new_param
-
-            new_opt_state[layer][pname] = {
-                "m": new_m,
-                "v": new_v
-            }
+            new_opt_state[layer][pname] = {"m": new_m, "v": new_v}
 
     return new_params, new_opt_state, loss
 
@@ -842,6 +824,8 @@ def train_loop(params, x, y, num_epochs, batch_size,
         loss_history.extend(losses)
     return params, loss_history
 
-# Step 59 - evaluate (not yet solved)
-# TODO: implement
+# Step 59 - evaluate
+def evaluate(params, x, y):
+    logits, _ = lenet_forward(x, params)
+    return accuracy(logits, y)
 
