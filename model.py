@@ -535,12 +535,8 @@ def sgd_step(param, grad, lr):
     return param-grad*lr
 
 # Step 37 - adam_update_m
-import numpy as np
-
 def adam_update_m(m, grad, beta_one):
-    m*=beta_one
-    m+=(1-beta_one)*grad
-    return m
+    return beta_one * m + (1 - beta_one) * grad
 
 # Step 38 - adam_update_v
 import numpy as np
