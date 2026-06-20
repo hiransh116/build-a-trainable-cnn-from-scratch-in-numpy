@@ -804,7 +804,7 @@ def init_opt_state(params):
     return state
 
 def train_loop(params, x, y, num_epochs, batch_size,
-                lr, beta_one, beta_two, eps, seed=0):
+               lr=1e-3, beta_one=0.9, beta_two=0.999, eps=1e-8, seed=0):
     opt_state = init_opt_state(params)
     step = 1
     loss_history = []
