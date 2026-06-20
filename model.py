@@ -45,14 +45,10 @@ def row_sum(matrix):
     return np.array(ans).reshape(len(ans),1)
 
 # Step 4 - exp_shifted
-import numpy as np
 def exp_shifted(logits):
     ans=row_max(logits)
-    logits-=ans
-    result=[]
-    for i in logits:
-        result.append(np.exp(i))
-    return np.array(result)
+    shifted=logits-ans         
+    return np.exp(shifted)
 
 # Step 5 - stable_softmax
 import numpy as np
